@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <button id="shareThis">Share This X</button>
+        <button id="support">support</button>
+    </div>
+    <script>
+        // var shareButton = document.getElementById('shareThis');
+        // var supported = document.getElementById('support');
+
+        const setupShareButton = () => {
+        const shareButton = document.getElementById("shareThis");
+
+        // Add an onclick listener to the element
+        shareButton.addEventListener("click", () => {
+            console.log("on click");
+            if (navigator.share) {
+                // If we have web share enabled use that
+                useWebShare();
+            } else {
+                // Else do something else to help people share
+                // your content
+                useFallback();
+            }
+        });
+    }
+    
+    const useFallback = () => {
+        console.log("Using fallback!");
+        const copyPasteUrl = document.getElementById("copy-paste-url");
+        copyPasteUrl.style.visibility = "visible";
+        // You could add a bar with share buttons for various 
+        // social media sites here as another idea
+    }
+  
+    const useWebShare = () => {
+        console.log("Using Web Share!");
+        // Web Share is promised based so we do .then and .catch
+        // after to handle success or failure
+        navigator.share({
+            title: 'Using webshare!',
+            text: 'This is an example of using web share',
+            url: 'https://developers.google.com/web',
+        })
+            .then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error));
+    }
+
+    setupShareButton();
+    </script>
+</body>
+
+</html>
